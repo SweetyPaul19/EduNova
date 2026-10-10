@@ -1,0 +1,345 @@
+{% extends 'user_profile_master.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <!-- Test Header -->
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h3 class="card-title mb-2">
+                            {{ test.title }}
+                        </h3>
+
+                        {% if test.description %}
+                            <p class="card-description">
+                                {{ test.description }}
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Timer -->
+
+                    <div
+                        class="text-center"
+                        style="min-width:150px;">
+
+                        <small class="text-muted">
+                            Time Remaining
+                        </small>
+
+                        <h3
+                            id="timer"
+                            class="mt-1 mb-0">
+
+                            Loading...
+
+                        </h3>
+
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row mt-3">
+
+                    <div class="col-md-4">
+
+                        <strong>
+                            <i class="mdi mdi-clock-outline"></i>
+                            Duration:
+                        </strong>
+
+                        {{ test.duration }} minutes
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <strong>
+                            <i class="mdi mdi-star-outline"></i>
+                            Total Marks:
+                        </strong>
+
+                        {{ test.total_marks }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <strong>
+                            <i class="mdi mdi-help-circle-outline"></i>
+                            Questions:
+                        </strong>
+
+                        {{ questions|length }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Warning -->
+
+        <div
+            id="timer-warning"
+            class="alert alert-warning"
+            style="display:none;">
+
+            <i class="mdi mdi-alert"></i>
+
+            Less than 1 minute remaining.
+            Please submit your test.
+
+        </div>
+
+
+        <!-- Questions -->
+
+        <form
+            method="post"
+            id="test-form"
+            action="{% url 'submit_practice_test' attempt.id %}">
+
+            {% csrf_token %}
+            {% for q in questions %}
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <h5>
+                            Q{{ forloop.counter }}.
+                            {{ q.question }}
+
+                            <span class="text-muted">
+
+                                ({{ q.marks }}
+                                mark{{ q.marks|pluralize }})
+
+                            </span>
+
+                        </h5>
+
+
+                        <div class="mt-4">
+
+
+                            <!-- Option A -->
+
+                            <div class="form-check mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="question_{{ q.id }}"
+                                    value="A"
+                                    id="q{{ q.id }}a">
+
+                                <label
+                                    class="form-check-label"
+                                    for="q{{ q.id }}a">
+
+                                    <strong>A.</strong>
+                                    {{ q.option_a }}
+
+                                </label>
+
+                            </div>
+                            <!-- Option B -->
+                            <div class="form-check mb-3">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="question_{{ q.id }}"
+                                    value="B"
+                                    id="q{{ q.id }}b">
+
+                                <label
+                                    class="form-check-label"
+                                    for="q{{ q.id }}b">
+
+                                    <strong>B.</strong>
+                                    {{ q.option_b }}
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- Option C -->
+
+                            <div class="form-check mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="question_{{ q.id }}"
+                                    value="C"
+                                    id="q{{ q.id }}c">
+
+                                <label
+                                    class="form-check-label"
+                                    for="q{{ q.id }}c">
+
+                                    <strong>C.</strong>
+                                    {{ q.option_c }}
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- Option D -->
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="question_{{ q.id }}"
+                                    value="D"
+                                    id="q{{ q.id }}d">
+
+                                <label
+                                    class="form-check-label"
+                                    for="q{{ q.id }}d">
+
+                                    <strong>D.</strong>
+                                    {{ q.option_d }}
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- Submit -->
+
+            <div class="card mb-4">
+
+                <div class="card-body text-center">
+
+                    <button
+                        type="submit"
+                        class="btn btn-gradient-primary btn-lg"
+                        id="submit-button">
+
+                        <i class="mdi mdi-check-circle"></i>
+
+                        Submit Test
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- Timer Script -->
+
+<script>
+
+    const deadline = new Date(
+        "{{ deadline|date:'c' }}"
+    ).getTime();
+
+    const timerElement =
+        document.getElementById("timer");
+
+    const warningElement =
+        document.getElementById("timer-warning");
+
+    const testForm =
+        document.getElementById("test-form");
+
+    let submitted = false;
+
+
+    function updateTimer() {
+
+        const now = new Date().getTime();
+
+        const remaining = deadline - now;
+
+
+        if (remaining <= 0) {
+
+            timerElement.innerHTML = "00:00";
+
+            if (!submitted) {
+
+                submitted = true;
+
+                testForm.submit();
+
+            }
+
+            return;
+        }
+
+
+        const totalSeconds =
+            Math.floor(remaining / 1000);
+
+        const hours =
+            Math.floor(totalSeconds / 3600);
+
+        const minutes =
+            Math.floor(
+                (totalSeconds % 3600) / 60
+            );
+
+        const seconds =
+            totalSeconds % 60;
+
+
+        timerElement.innerHTML =
+            String(hours).padStart(2, '0')
+            + ":"
+            + String(minutes).padStart(2, '0')
+            + ":"
+            + String(seconds).padStart(2, '0');
+
+
+        if (remaining <= 60000) {
+
+            warningElement.style.display = "block";
+
+        }
+
+    }
+
+
+    updateTimer();
+
+    const timerInterval =
+        setInterval(updateTimer, 1000);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,464 @@
+/* =========================================
+    PAGE
+========================================= */
+
+.practice-page {
+    padding-bottom: 30px;
+}
+
+
+/* =========================================
+    HERO
+========================================= */
+
+.practice-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2424d8, #4141ed, #6262f5);
+    border-radius: 16px;
+    padding: 30px 32px;
+    color: white;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(38, 38, 229, 0.18);
+}
+
+.practice-hero::before {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    right: -50px;
+    top: -80px;
+}
+
+.practice-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.practice-hero h2 {
+    margin: 0 0 8px;
+    font-size: 27px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.practice-hero h2 i {
+    margin-right: 8px;
+}
+
+.practice-hero p {
+    margin: 0;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* =========================================
+    SECTION HEADING
+========================================= */
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.section-heading h4 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #292929;
+}
+
+.section-heading span {
+    font-size: 13px;
+    color: #777;
+}
+
+
+/* =========================================
+    CARD
+========================================= */
+
+.test-wrapper {
+    margin-bottom: 25px;
+}
+
+.test-card {
+    position: relative;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e6e6ee;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.test-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+    border-color: #ccccff;
+}
+
+.test-card-accent {
+    height: 5px;
+    background: linear-gradient(90deg, #2626e5, #6262f5);
+}
+
+.test-card-body {
+    padding: 23px;
+}
+
+
+/* =========================================
+    BADGE
+========================================= */
+
+.test-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: #eeeeff;
+    color: #2626e5;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 13px;
+}
+
+
+/* =========================================
+    TITLE
+========================================= */
+
+.test-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.35;
+    margin-bottom: 7px;
+}
+
+
+/* =========================================
+    COURSE
+========================================= */
+
+.test-course {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.test-course i {
+    color: #2626e5;
+    margin-right: 5px;
+}
+
+
+/* =========================================
+    DESCRIPTION
+========================================= */
+
+.test-description {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 42px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+    IMPORTANT TEST INFORMATION
+========================================= */
+
+.important-info {
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+    DURATION + MARKS
+========================================= */
+
+.main-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.main-stat {
+    flex: 1;
+    border-radius: 11px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid;
+}
+
+
+/* Duration */
+
+.duration-box {
+    background: #eef4ff;
+    border-color: #cddcff;
+}
+
+.duration-box i {
+    color: #2463eb;
+}
+
+.duration-box strong {
+    color: #1854d1;
+}
+
+
+/* Marks */
+
+.marks-box {
+    background: #f3efff;
+    border-color: #ddd2ff;
+}
+
+.marks-box i {
+    color: #7442e8;
+}
+
+.marks-box strong {
+    color: #6430d4;
+}
+
+
+.main-stat i {
+    display: block;
+    font-size: 23px;
+    margin-bottom: 4px;
+}
+
+.main-stat strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.main-stat span {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================
+    START / END TIME
+========================================= */
+
+.schedule-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 19px;
+}
+
+.schedule-box {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+
+/* Start Time */
+
+.start-box {
+    background: #effaf3;
+    border-color: #c8ead5;
+}
+
+.start-box .schedule-icon {
+    color: #159447;
+    background: #dff5e7;
+}
+
+.start-box .schedule-label {
+    color: #21834a;
+}
+
+.start-box .schedule-value {
+    color: #166b3c;
+}
+
+
+/* End Time */
+
+.end-box {
+    background: #fff1f1;
+    border-color: #f2cccc;
+}
+
+.end-box .schedule-icon {
+    color: #dc3545;
+    background: #ffe0e0;
+}
+
+.end-box .schedule-label {
+    color: #c52f3e;
+}
+
+.end-box .schedule-value {
+    color: #a92231;
+}
+
+
+.schedule-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.schedule-icon {
+    width: 27px;
+    height: 27px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+.schedule-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.schedule-value {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+
+/* =========================================
+    START TEST BUTTON
+========================================= */
+
+.start-test-btn {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2626e5, #4b4bef);
+    transition: all 0.2s ease;
+}
+
+.start-test-btn:hover {
+    color: white;
+    opacity: 0.93;
+    box-shadow: 0 5px 14px rgba(38, 38, 229, 0.25);
+}
+
+.start-test-btn i {
+    font-size: 17px;
+    vertical-align: middle;
+}
+
+
+/* =========================================
+    EMPTY STATE
+========================================= */
+
+.empty-state {
+    background: white;
+    border: 1px solid #e9e9ef;
+    border-radius: 14px;
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eeeeff;
+    color: #2626e5;
+    font-size: 38px;
+}
+
+.empty-state h4 {
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.empty-state p {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+}
+
+
+/* =========================================
+    MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .practice-hero {
+        padding: 24px 20px;
+    }
+
+    .practice-hero h2 {
+        font-size: 23px;
+    }
+
+    .section-heading {
+        display: block;
+    }
+
+    .section-heading span {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .test-card-body {
+        padding: 20px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .main-stats {
+        gap: 8px;
+    }
+
+    .schedule-container {
+        flex-direction: column;
+    }
+
+    .main-stat {
+        padding: 12px 8px;
+    }
+
+}

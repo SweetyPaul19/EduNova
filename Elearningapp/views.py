@@ -9,10 +9,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from .token04 import generate_token04
 from datetime import datetime
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from datetime import timedelta
 
 import requests
 import random
@@ -1345,14 +1345,10 @@ def create_live_class(request, id):
             start_time = request.POST.get('start_time')
             end_time = request.POST.get('end_time')
 
-            # Generate unique ZEGOCLOUD room ID
-            room_id = "course_" + str(id) + "_" + uuid.uuid4().hex[:8]
-
             LiveClass.objects.create(
                 course=batche,
                 teacher=Teacher,
                 title=title,
-                room_id=room_id,
                 scheduled_date=scheduled_date,
                 start_time=start_time,
                 end_time=end_time
@@ -1535,15 +1531,499 @@ def student_live_class(request, id):
         return redirect('my_batch')
 
     room_name = f"EduNovaLive_{live_class.id}"
-
+    user=elearning_users.objects.get(email=request.session['email'])
     return render(
         request,
         'student_live_class.html',
         {
             'live_class': live_class,
             'room_name': room_name,
+            'user': user
+        }
+    )
+
+def conduct_test(request, id):
+
+    batche = get_object_or_404(course, id=id)
+
+    teacher_email = request.session.get('email')
+
+    if not teacher_email:
+        return redirect('teachers_login')
+
+    Teacher = get_object_or_404(
+        teacher,
+        email=teacher_email
+    )
+
+    if request.method == 'POST':
+
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+
+        # Start date and time
+        start_date = request.POST.get('start_date')
+        start_time = request.POST.get('start_time')
+        start_ampm = request.POST.get('start_ampm')
+
+        # End date and time
+        end_date = request.POST.get('end_date')
+        end_time = request.POST.get('end_time')
+        end_ampm = request.POST.get('end_ampm')
+
+        duration = request.POST.get('duration')
+
+        # Combine date + time + AM/PM
+        start_datetime_string = (
+            f"{start_date} {start_time} {start_ampm}"
+        )
+
+        end_datetime_string = (
+            f"{end_date} {end_time} {end_ampm}"
+        )
+
+        # Convert to Python datetime
+        start_datetime = datetime.strptime(
+            start_datetime_string,
+            '%Y-%m-%d %I:%M %p'
+        )
+
+        end_datetime = datetime.strptime(
+            end_datetime_string,
+            '%Y-%m-%d %I:%M %p'
+        )
+
+        # Make timezone-aware using Asia/Kolkata
+        start_datetime = timezone.make_aware(start_datetime)
+        end_datetime = timezone.make_aware(end_datetime)
+
+        # Make sure end time is after start time
+        if end_datetime <= start_datetime:
+            return render(
+                request,
+                'conduct_test.html',
+                {
+                    'batche': batche,
+                    'Teacher': Teacher,
+                    'error': 'End time must be after start time.'
+                }
+            )
+
+        test=PracticeTest.objects.create(
+            course=batche,
+            title=title,
+            description=description,
+            start_time=start_datetime,
+            end_time=end_datetime,
+            duration=duration,
+            created_by=teacher_email
+        )
+
+        return redirect( 'add_question', test_id=test.id )
+
+    return render(
+        request,
+        'conduct_test.html',
+        {
+            'batche': batche,
+            'Teacher': Teacher
+        }
+    )
+
+def add_question(request, test_id):
+
+    test = get_object_or_404(
+        PracticeTest,
+        id=test_id
+    )
+
+    teacher_email = request.session.get('email')
+
+    if not teacher_email:
+        return redirect('teachers_login')
+
+    Teacher = get_object_or_404(
+        teacher,
+        email=teacher_email
+    )
+
+    if request.method == 'POST':
+
+        question = request.POST.get('question')
+        option_a = request.POST.get('option_a')
+        option_b = request.POST.get('option_b')
+        option_c = request.POST.get('option_c')
+        option_d = request.POST.get('option_d')
+        correct_answer = request.POST.get('correct_answer')
+        marks = request.POST.get('marks')
+
+        TestQuestion.objects.create(
+            test=test,
+            question=question,
+            option_a=option_a,
+            option_b=option_b,
+            option_c=option_c,
+            option_d=option_d,
+            correct_answer=correct_answer,
+            marks=marks
+        )
+
+        # Recalculate total marks
+        total_marks = sum(
+            q.marks for q in test.questions.all()
+        )
+
+        test.total_marks = total_marks
+        test.save()
+
+        return redirect(
+            'add_question',
+            test_id=test.id
+        )
+
+    questions = test.questions.all()
+
+    return render(
+        request,
+        'add_question.html',
+        {
+            'test': test,
+            'questions': questions,
+            'Teacher': Teacher
+        }
+    )
+
+def edit_question(request, question_id):
+
+    question = get_object_or_404(
+        TestQuestion,
+        id=question_id
+    )
+
+    teacher_email = request.session.get('email')
+
+    if not teacher_email:
+        return redirect('teachers_login')
+
+    Teacher = get_object_or_404(
+        teacher,
+        email=teacher_email
+    )
+
+    if request.method == 'POST':
+
+        question.question = request.POST.get('question')
+        question.option_a = request.POST.get('option_a')
+        question.option_b = request.POST.get('option_b')
+        question.option_c = request.POST.get('option_c')
+        question.option_d = request.POST.get('option_d')
+        question.correct_answer = request.POST.get('correct_answer')
+        question.marks = request.POST.get('marks')
+
+        question.save()
+
+        test = question.test
+
+        # Recalculate total marks
+        total_marks = sum(
+            q.marks for q in test.questions.all()
+        )
+
+        test.total_marks = total_marks
+        test.save()
+
+        return redirect(
+            'add_question',
+            test_id=test.id
+        )
+
+    return render(
+        request,
+        'edit_question.html',
+        {
+            'question': question,
+            'Teacher': Teacher
         }
     )
 
 
- 
+def delete_question(request, question_id):
+
+    question = get_object_or_404(
+        TestQuestion,
+        id=question_id
+    )
+
+    test = question.test
+
+    teacher_email = request.session.get('email')
+
+    if not teacher_email:
+        return redirect('teachers_login')
+
+    if request.method == 'POST':
+
+        question.delete()
+
+        # Recalculate total marks
+        total_marks = sum(
+            q.marks for q in test.questions.all()
+        )
+
+        test.total_marks = total_marks
+        test.save()
+
+    return redirect(
+        'add_question',
+        test_id=test.id
+    )
+
+def student_practice_tests(request):
+
+    student_email = request.session.get('email')
+    user=elearning_users.objects.get(email=student_email)
+    if not student_email:
+        return redirect('user_login')
+
+    # Get courses purchased by the student
+    batches = my_batch.objects.filter(
+        user_email=student_email,
+        status='Active'
+    )
+
+    course_ids = [
+        int(batch.course_id)
+        for batch in batches
+    ]
+
+    # Get tests for those courses
+    tests = PracticeTest.objects.filter(
+        course_id__in=course_ids
+    ).order_by('start_time')
+
+    return render(
+        request,
+        'student_practice_tests.html',
+        {
+            'tests': tests,'user': user
+        }
+    )
+
+def start_practice_test(request, test_id):
+
+    student_email = request.session.get('email')
+    user=elearning_users.objects.get(email=student_email)
+    if not student_email:
+        return redirect('adminlogin')
+
+    test = get_object_or_404(
+        PracticeTest,
+        id=test_id
+    )
+
+    now = timezone.now()
+
+    # Test has not started yet
+    if now < test.start_time:
+
+        return render(
+            request,
+            'test_message.html',
+            {
+                'message': 'This test has not started yet.',
+                'test': test,
+                'user': user,
+            }
+        )
+
+    # Test has ended
+    if now >= test.end_time:
+        TestQuestion.objects.filter(test=test).delete();
+        return render(
+            request,
+            'test_message.html',
+            {
+                'message': 'This test has already ended.',
+                'test': test,
+                'user': user,
+            }
+        )
+
+    # Check student enrollment
+    enrolled = my_batch.objects.filter(
+        user_email=student_email,
+        course_id=str(test.course.id), # Filter by course ID 
+        status='Active'
+    ).exists()
+
+    if not enrolled:
+
+        return render(
+            request,
+            'test_message.html',
+            {
+                'message': 'You are not enrolled in this course.',
+                'test': test,
+                'user': user,
+            }
+        )
+
+    # Check whether the test has questions
+    questions = test.questions.all()
+
+    if not questions.exists():
+
+        return render(
+            request,
+            'test_message.html',
+            {
+                'message': 'This test does not have any questions yet.',
+                'test': test,
+                'user': user,
+            }
+        )
+
+    # Check if student already has an attempt
+    attempt = TestAttempt.objects.filter(
+        student_email=student_email,
+        test=test
+    ).first()
+
+    # Student already submitted
+    if attempt and attempt.completed:
+
+        return redirect(
+            'test_result',
+            attempt_id=attempt.id
+        )
+
+    # Create attempt if this is the first time
+    if not attempt:
+
+        attempt = TestAttempt.objects.create(
+            student_email=student_email,
+            test=test,
+            started_at=now
+        )
+
+    # Calculate student's personal deadline
+    duration_seconds = test.duration * 60
+
+    personal_deadline = (
+        attempt.started_at +
+        timedelta(seconds=duration_seconds)
+    )
+
+    # Test closing time has priority
+    if test.end_time < personal_deadline:
+        deadline = test.end_time
+    else:
+        deadline = personal_deadline
+
+    # Student's time is already over
+    if now >= deadline:
+
+        return redirect(
+            'submit_practice_test',
+            attempt_id=attempt.id
+        )
+
+    return render(
+        request,
+        'take_test.html',
+        {
+            'test': test,
+            'questions': questions,
+            'attempt': attempt,
+            'deadline': deadline,
+            'user': user,
+        }
+    )
+
+def submit_practice_test(request, attempt_id):
+
+    student_email = request.session.get('email')
+    user=elearning_users.objects.get(email=student_email)
+    if not student_email:
+        return redirect('adminlogin')
+
+    attempt = get_object_or_404(
+        TestAttempt,
+        id=attempt_id,
+        student_email=student_email
+    )
+
+    # Prevent submitting the same test again
+    if attempt.completed:
+        return redirect(
+            'test_result',
+            attempt_id=attempt.id
+        )
+
+    test = attempt.test
+
+    questions = test.questions.all()
+
+    score = 0
+
+    if request.method == 'POST':
+
+        for question in questions:
+
+            selected_answer = request.POST.get(
+                f'question_{question.id}'
+            )
+
+            if selected_answer == question.correct_answer:
+
+                score += question.marks
+
+    else:
+
+        # Timer expired
+        score = 0
+
+    attempt.score = score
+    attempt.submitted_at = timezone.now()
+    attempt.completed = True
+
+    attempt.save()
+
+    return redirect(
+        'test_result',
+        attempt_id=attempt.id,
+    )
+
+def test_result(request, attempt_id):
+
+    student_email = request.session.get('email')
+    user=elearning_users.objects.get(email=student_email)
+    if not student_email:
+        return redirect('adminlogin')
+
+    attempt = get_object_or_404(
+        TestAttempt,
+        id=attempt_id,
+        student_email=student_email
+    )
+
+    test = attempt.test
+
+    percentage = 0
+
+    if test.total_marks > 0:
+
+        percentage = (
+            attempt.score / test.total_marks
+        ) * 100
+
+    return render(
+        request,
+        'test_result.html',
+        {
+            'attempt': attempt,
+            'test': test,
+            'percentage': round(percentage, 2),
+            'user': user
+        }
+    )

@@ -1,0 +1,154 @@
+{% extends 'teachers_master.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">
+                    Edit Question
+                </h4>
+
+                <p class="card-description">
+                    {{ question.test.title }}
+                </p>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Question</label>
+
+                        <textarea
+                            name="question"
+                            class="form-control"
+                            rows="4"
+                            required>{{ question.question }}</textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Option A</label>
+
+                        <input
+                            type="text"
+                            name="option_a"
+                            class="form-control"
+                            value="{{ question.option_a }}"
+                            required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Option B</label>
+
+                        <input
+                            type="text"
+                            name="option_b"
+                            class="form-control"
+                            value="{{ question.option_b }}"
+                            required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Option C</label>
+
+                        <input
+                            type="text"
+                            name="option_c"
+                            class="form-control"
+                            value="{{ question.option_c }}"
+                            required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Option D</label>
+
+                        <input
+                            type="text"
+                            name="option_d"
+                            class="form-control"
+                            value="{{ question.option_d }}"
+                            required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Correct Answer</label>
+
+                        <select
+                            name="correct_answer"
+                            class="form-control"
+                            required>
+
+                            <option value="A"
+                                {% if question.correct_answer == 'A' %}selected{% endif %}>
+                                Option A
+                            </option>
+
+                            <option value="B"
+                                {% if question.correct_answer == 'B' %}selected{% endif %}>
+                                Option B
+                            </option>
+
+                            <option value="C"
+                                {% if question.correct_answer == 'C' %}selected{% endif %}>
+                                Option C
+                            </option>
+
+                            <option value="D"
+                                {% if question.correct_answer == 'D' %}selected{% endif %}>
+                                Option D
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Marks</label>
+
+                        <input
+                            type="number"
+                            name="marks"
+                            class="form-control"
+                            value="{{ question.marks }}"
+                            min="1"
+                            required>
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-gradient-primary me-2">
+
+                        <i class="mdi mdi-content-save"></i>
+                        Update Question
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'add_question' question.test.id %}"
+                        class="btn btn-light">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

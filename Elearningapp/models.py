@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Elearningadmin(models.Model):
@@ -110,3 +111,78 @@ class payment(models.Model):
 
     def __str__(self):
         return self.order_id      
+
+# ============================================================
+# PRACTICE TEST
+# ============================================================
+
+
+class PracticeTest(models.Model):
+    course = models.ForeignKey(
+        course,
+        on_delete=models.CASCADE,
+        related_name='practice_tests'
+    )
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    start_time = models.DateTimeField()
+    end_time=models.DateTimeField()
+    duration = models.PositiveIntegerField(default=30)
+    total_marks = models.PositiveIntegerField(default=0)
+    created_by = models.CharField(max_length=200)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+
+
+class TestQuestion(models.Model):
+    test = models.ForeignKey(
+        PracticeTest,
+        on_delete=models.CASCADE,
+        related_name='questions'
+    )
+    question = models.TextField()
+
+    option_a = models.CharField(max_length=500)
+    option_b = models.CharField(max_length=500)
+    option_c = models.CharField(max_length=500)
+    option_d = models.CharField(max_length=500)
+
+    correct_answer = models.CharField(
+        max_length=1,
+        choices=[
+            ('A', 'Option A'),
+            ('B', 'Option B'),
+            ('C', 'Option C'),
+            ('D', 'Option D'),
+        ]
+    )
+
+    marks = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return self.question[:50]
+
+class TestAttempt(models.Model):
+
+    student_email = models.EmailField()
+
+    test = models.ForeignKey(
+        PracticeTest,
+        on_delete=models.CASCADE,
+        related_name='attempts'
+    )
+
+    started_at = models.DateTimeField()
+    submitted_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    score = models.PositiveIntegerField(default=0)
+
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.student_email} - {self.test.title}"

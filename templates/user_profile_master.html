@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>EduNova user</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/css/user_profile_master.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/my_batch.css' %}">
-     <link rel="stylesheet" href="{% static 'assets/css/update_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/update_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/student_practice_test.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/test_message.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
@@ -37,23 +40,13 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-          <a class="navbar-brand brand-logo" href="{% url 'website_index' %}"><img src="{% static 'assets/images/edunova logo.png' %}" alt="logo" /></a>
+          <a class="navbar-brand brand-logo" href="{% url 'website_index' %}"><img src="{% static 'assets/images/edunova_logo_svg.svg' %}" alt="logo" /></a>
           <a class="navbar-brand brand-logo-mini" href="{% url 'website_index' %}"><img src="{% static 'assets/images/logo-mini.svg' %}" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
           </button>
-          <div class="search-field d-none d-md-block">
-            <form class="d-flex align-items-center h-100" action="#">
-              <div class="input-group">
-                <div class="input-group-prepend bg-transparent">
-                  <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-                <input type="text" class="form-control bg-transparent border-0" placeholder="Search">
-              </div>
-            </form>
-          </div>
           <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,7 +59,7 @@
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">{{ ename }}</p>
+                  <p class="mb-1 text-black">{{ user.name }}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -200,7 +193,7 @@
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2">{{ ename }}</span>
+                  <span class="font-weight-bold mb-2">{{ user.name }}</span>
                   <span class="text-secondary text-small">Student</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>

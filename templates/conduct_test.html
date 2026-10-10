@@ -1,0 +1,183 @@
+{% extends 'teachers_master.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">
+                    {{ batche.name }}
+                </h4>
+
+                <p class="card-description">
+                    Create test for {{ batche.name }}
+                </p>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <!-- Test Title -->
+                    <div class="form-group">
+                        <label>Test Title</label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            placeholder="Enter test title"
+                            required>
+                    </div>
+
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label>Description</label>
+
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Enter test description"></textarea>
+                    </div>
+
+
+                    <!-- Start Date -->
+                    <div class="form-group">
+                        <label>Start Date</label>
+
+                        <input
+                            type="date"
+                            name="start_date"
+                            class="form-control"
+                            required>
+                    </div>
+
+
+                    <!-- Start Time -->
+                    <div class="form-group">
+                        <label>Start Time</label>
+
+                        <div class="d-flex">
+
+                            <input
+                                type="text"
+                                name="start_time"
+                                class="form-control"
+                                placeholder="HH:MM"
+                                pattern="^(0?[1-9]|1[0-2]):[0-5][0-9]$"
+                                required>
+
+                            <select
+                                name="start_ampm"
+                                class="form-control"
+                                style="max-width: 100px; margin-left: 10px;"
+                                required>
+
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <!-- End Date -->
+                    <div class="form-group">
+                        <label>End Date</label>
+
+                        <input
+                            type="date"
+                            name="end_date"
+                            class="form-control"
+                            required>
+                    </div>
+
+
+                    <!-- End Time -->
+                    <div class="form-group">
+                        <label>End Time</label>
+
+                        <div class="d-flex">
+
+                            <input
+                                type="text"
+                                name="end_time"
+                                class="form-control"
+                                placeholder="HH:MM"
+                                pattern="^(0?[1-9]|1[0-2]):[0-5][0-9]$"
+                                required>
+
+                            <select
+                                name="end_ampm"
+                                class="form-control"
+                                style="max-width: 100px; margin-left: 10px;"
+                                required>
+
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <!-- Duration -->
+                    <div class="form-group">
+                        <label>Duration (Minutes)</label>
+
+                        <input
+                            type="number"
+                            name="duration"
+                            class="form-control"
+                            placeholder="Enter duration in minutes"
+                            min="1"
+                            required>
+                    </div>
+                    <!-- Created By -->
+                    <div class="form-group">
+                        <label>Created By</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="{{ Teacher.name }}"
+                            readonly>
+                    </div>
+
+
+                    <!-- Submit -->
+                    <button
+                        type="submit"
+                        class="btn btn-gradient-primary me-2">
+
+                        Create Test
+
+                    </button>
+
+
+                    <!-- Cancel -->
+                    <a
+                        href="{% url 'teacher_view_batch' batche.id %}"
+                        class="btn btn-light">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+

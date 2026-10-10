@@ -1,0 +1,300 @@
+{% extends 'user_profile_master.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="main-panel">
+<div class="content-wrapper practice-page">
+
+
+    <!-- =========================================
+         HERO
+    ========================================== -->
+
+    <div class="practice-hero">
+
+        <div class="practice-hero-content">
+
+            <h2>
+                <i class="mdi mdi-file-document-edit-outline"></i>
+                Practice Tests
+            </h2>
+
+            <p>
+                Challenge yourself, test your knowledge,
+                and improve your preparation.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         SECTION HEADING
+    ========================================== -->
+
+    <div class="section-heading">
+
+        <h4>
+            Available Tests
+        </h4>
+
+    </div>
+
+
+    <!-- =========================================
+         TESTS
+    ========================================== -->
+
+    <div class="row">
+
+        {% if tests %}
+
+            {% for test in tests %}
+
+                <div class="col-md-6 col-lg-4 test-wrapper">
+
+                    <div class="test-card">
+
+                        <div class="test-card-accent"></div>
+
+                        <div class="test-card-body">
+
+
+                            <!-- Badge -->
+
+                            <div class="test-badge">
+
+                                <i class="mdi mdi-file-document-outline"></i>
+
+                                Practice Test
+
+                            </div>
+
+
+                            <!-- Title -->
+
+                            <div class="test-title">
+
+                                {{ test.title }}
+
+                            </div>
+
+
+                            <!-- Course -->
+
+                            <div class="test-course">
+
+                                <i class="mdi mdi-book-open-variant"></i>
+
+                                {{ test.course.name }}
+
+                            </div>
+
+
+                            <!-- Description -->
+
+                            {% if test.description %}
+
+                                <div class="test-description">
+
+                                    {{ test.description }}
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="test-description">
+
+                                    Test your knowledge and check
+                                    your understanding of this course.
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- =====================================
+                                 IMPORTANT INFORMATION
+                            ====================================== -->
+
+                            <div class="important-info">
+
+
+                                <!-- Duration + Marks -->
+
+                                <div class="main-stats">
+
+
+                                    <!-- Duration -->
+
+                                    <div class="main-stat duration-box">
+
+                                        <i class="mdi mdi-clock-fast"></i>
+
+                                        <strong>
+                                            {{ test.duration }}
+                                        </strong>
+
+                                        <span>
+                                            Minutes
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Total Marks -->
+
+                                    <div class="main-stat marks-box">
+
+                                        <i class="mdi mdi-star-circle"></i>
+
+                                        <strong>
+                                            {{ test.total_marks }}
+                                        </strong>
+
+                                        <span>
+                                            Total Marks
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =================================
+                                     START + END TIME
+                                ================================== -->
+
+                                <div class="schedule-container">
+
+
+                                    <!-- Start -->
+
+                                    <div class="schedule-box start-box">
+
+                                        <div class="schedule-top">
+
+                                            <div class="schedule-icon">
+
+                                                <i class="mdi mdi-play-circle-outline"></i>
+
+                                            </div>
+
+                                            <span class="schedule-label">
+                                                Starts
+                                            </span>
+
+                                        </div>
+
+                                        <span class="schedule-value">
+
+                                            {{ test.start_time|date:"d M Y, h:i A" }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- End -->
+
+                                    <div class="schedule-box end-box">
+
+                                        <div class="schedule-top">
+
+                                            <div class="schedule-icon">
+
+                                                <i class="mdi mdi-stop-circle-outline"></i>
+
+                                            </div>
+
+                                            <span class="schedule-label">
+                                                Ends
+                                            </span>
+
+                                        </div>
+
+                                        <span class="schedule-value">
+
+                                            {{ test.end_time|date:"d M Y, h:i A" }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =====================================
+                                 START TEST
+                            ====================================== -->
+
+                            <a
+                                href="{% url 'start_practice_test' test.id %}"
+                                class="btn start-test-btn">
+
+                                <i class="mdi mdi-play-circle"></i>
+
+                                &nbsp; Start Test
+
+                                <i
+                                    class="mdi mdi-arrow-right"
+                                    style="float:right; margin-right:0;">
+                                </i>
+
+                            </a>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <!-- =========================================
+                 EMPTY STATE
+            ========================================== -->
+
+            <div class="col-12">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="mdi mdi-file-document-outline"></i>
+
+                    </div>
+
+                    <h4>
+                        No Practice Tests Available
+                    </h4>
+
+                    <p>
+                        There are currently no practice tests
+                        available for your enrolled courses.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

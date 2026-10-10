@@ -1,0 +1,60 @@
+{% extends 'user_profile_master.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper test-info-page">
+
+    <div class="test-info-card">
+
+        <!-- Color Accent -->
+        <div class="test-info-accent"></div>
+
+        <div class="test-info-body">
+
+            <!-- Status -->
+            <div class="test-info-status">
+                <i class="mdi mdi-information-outline"></i>
+                Practice Test
+            </div>
+
+            <!-- Information Icon -->
+            <div class="test-info-icon">
+                <i class="mdi mdi-information-outline"></i>
+            </div>
+
+            <!-- Test Title -->
+            <h3 class="test-info-title">
+                {{ test.title }}
+            </h3>
+
+            <!-- Decorative Divider -->
+            <div class="test-info-divider"></div>
+
+            <!-- Message -->
+            <div class="test-info-message">
+                {{ message }}
+            </div>
+
+            <!-- Back Button -->
+            <a href="{% url 'student_practice_tests' %}"
+               class="test-info-back-btn">
+
+                <i class="mdi mdi-arrow-left"></i>
+
+                <span>
+                    Back to Practice Tests
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -56,5 +56,13 @@ urlpatterns=[
     path('student_live_class/<int:id>/',views.student_live_class,name='student_live_class'),
     path("create-cashfree-order/<int:id>/",views.create_cashfree_order,name="create_cashfree_order"),
     path("cashfree/webhook/",views.cashfree_webhook,name="cashfree_webhook"),
-    path("cashfree/payment-success/",views.cashfree_payment_success,name="cashfree_payment_success")
+    path("cashfree/payment-success/",views.cashfree_payment_success,name="cashfree_payment_success"),
+    path('conduct_test/<int:id>/',views.conduct_test,name='conduct_test'),
+    path('teacher/practice-tests/<int:test_id>/add-question/',views.add_question,name='add_question'),
+    path('teacher/practice-tests/question/<int:question_id>/edit/',views.edit_question,name='edit_question'),
+    path('teacher/practice-tests/question/<int:question_id>/delete/',views.delete_question,name='delete_question'),
+    path('student/practice-tests/',views.student_practice_tests,name='student_practice_tests'),
+    path('student/practice-tests/<int:test_id>/start/',views.start_practice_test,name='start_practice_test'),
+    path('student/practice-tests/submit/<int:attempt_id>/',views.submit_practice_test,name='submit_practice_test'),
+    path('student/practice-tests/result/<int:attempt_id>/',views.test_result,name='test_result'),
 ]

@@ -11,4 +11,6 @@ admin.site.register(my_batch)
 admin.site.register(upload_lecture)
 admin.site.register(LiveClass)
 admin.site.register(payment)
+admin.site.register(PracticeTest)
+admin.site.register(TestQuestion)
 # Register your models here.
