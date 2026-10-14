@@ -1,0 +1,375 @@
+/* ==========================================
+   EDUNOVA BATCH DASHBOARD
+========================================== */
+
+.batch-dashboard {
+    padding: 25px;
+    background: #f5f7fc;
+    min-height: 100vh;
+    color: #26324b;
+}
+
+.batch-header {
+    background: linear-gradient(120deg, #3825a8, #7357ed);
+    padding: 30px;
+    border-radius: 18px;
+    color: #fff;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 8px 24px rgba(74, 55, 180, 0.15);
+}
+
+.batch-header h2 {
+    color: #fff;
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0 0 9px;
+}
+
+.batch-header p {
+    color: #e7e3ff;
+    margin: 0;
+    font-size: 14px;
+}
+
+.batch-header-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 17px;
+    background: rgba(255,255,255,0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    flex-shrink: 0;
+}
+
+/* STAT CARDS */
+
+.batch-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+.batch-stat-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid #e9edf6;
+    box-shadow: 0 4px 15px rgba(36, 48, 85, 0.04);
+}
+
+.batch-stat-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    font-size: 29px;
+}
+
+.stat-purple {
+    color: #6447e8;
+    background: #eeeaff;
+}
+
+.stat-orange {
+    color: #ed8b29;
+    background: #fff1df;
+}
+
+.batch-stat-label {
+    font-size: 14px;
+    color: #7c879e;
+    margin-bottom: 7px;
+}
+
+.batch-stat-value {
+    font-size: 29px;
+    line-height: 1.2;
+    font-weight: 750;
+    color: #25304a;
+    margin: 0;
+}
+
+/* SECTION CARD */
+
+.batch-section {
+    background: #fff;
+    border-radius: 17px;
+    border: 1px solid #e9edf6;
+    box-shadow: 0 4px 15px rgba(36, 48, 85, 0.04);
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.batch-section-header {
+    padding: 25px 27px;
+    border-bottom: 1px solid #edf0f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.batch-section-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.batch-section-title > i {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #eeeaff;
+    color: #6549df;
+    font-size: 24px;
+}
+
+.batch-section-title h4 {
+    margin: 0 0 5px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #26324b;
+}
+
+.batch-section-title p {
+    margin: 0;
+    color: #8992a6;
+    font-size: 13px;
+}
+
+.batch-section-body {
+    padding: 25px 27px;
+}
+
+/* BUTTONS */
+
+.batch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none !important;
+    border: none;
+    white-space: nowrap;
+}
+
+.batch-btn-primary {
+    background: #6046e8;
+    color: #fff !important;
+}
+
+.batch-btn-warning {
+    background: #fff0d8;
+    color: #a76508 !important;
+}
+
+.batch-btn-success {
+    background: #dff7e9;
+    color: #16834b !important;
+}
+
+.batch-btn-disabled {
+    background: #edf0f5;
+    color: #8791a4 !important;
+    cursor: not-allowed;
+}
+
+/* LIVE CLASS TABLE */
+
+.live-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.live-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.live-table thead th {
+    background: #f7f8fc;
+    padding: 15px 17px;
+    color: #7a859c;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    text-align: left;
+    border-bottom: 1px solid #e9edf5;
+}
+
+.live-table tbody td {
+    padding: 19px 17px;
+    border-bottom: 1px solid #edf0f6;
+    color: #4c5870;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.live-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.live-class-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 180px;
+}
+
+.live-class-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    background: #eeeaff;
+    color: #6349df;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.live-class-name strong {
+    color: #29344e;
+    font-size: 13px;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+.live-date {
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.live-time {
+    white-space: nowrap;
+}
+
+.live-status {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-upcoming {
+    color: #a76508;
+    background: #fff0d8;
+}
+
+.status-live {
+    color: #16834b;
+    background: #dff7e9;
+}
+
+.status-ended {
+    color: #747f91;
+    background: #edf0f5;
+}
+
+/* EMPTY STATE */
+
+.batch-empty-state {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.batch-empty-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+    background: #f0edff;
+    color: #674ce5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    font-size: 37px;
+}
+
+.batch-empty-state h5 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #29344e;
+    margin-bottom: 9px;
+}
+
+.batch-empty-state p {
+    font-size: 13px;
+    color: #8992a6;
+    margin-bottom: 20px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .batch-dashboard {
+        padding: 15px;
+    }
+
+    .batch-header {
+        padding: 23px;
+    }
+
+    .batch-header h2 {
+        font-size: 22px;
+    }
+
+    .batch-stats {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .batch-stat-card {
+        padding: 20px;
+    }
+
+    .batch-section-header,
+    .batch-section-body {
+        padding: 19px;
+    }
+
+    .batch-section-header {
+        align-items: flex-start;
+    }
+
+    .batch-section-title h4 {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 420px) {
+    .batch-header-icon {
+        display: none;
+    }
+
+    .batch-btn {
+        white-space: normal;
+    }
+}

@@ -1,29 +1,184 @@
+
 {% extends 'teachers_master.html' %}
 {% load static %}
 
 {% block content %}
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title">
-                Hi, wellcome {{ Teacher.name }}
-              </h3>
+
+<link rel="stylesheet" href="{% static 'assets/css/teacher_dashboard.css' %}">
+
+<div class="main-panel teacher-dashboard">
+    <div class="content-wrapper">
+
+        <!-- Welcome Header -->
+        <div class="teacher-page-header">
+            <div>
+                <span class="teacher-eyebrow">EDUNOVA • TEACHER PORTAL</span>
+
+                <h2>
+                    Welcome back, {{ Teacher.name }}<span class="teacher-heading-dot">.</span>
+                </h2>
+
+                <p>Manage your courses, support your students, and keep learning moving forward.</p>
             </div>
-            <div class="row">
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-end"></i>
-                    </h4>
-                    <h2 class="mb-5">$ 15,0000</h2>
-                    <h6 class="card-text">Increased by 60%</h6>
-                  </div>
-                </div>
-              </div>
+
+            <div class="teacher-profile-icon">
+                <i class="mdi mdi-account-school-outline"></i>
             </div>
-            
-            
         </div>
-        </div>  
+
+        <!-- Welcome Banner -->
+        <div class="teacher-welcome-banner">
+
+            <div class="teacher-banner-content">
+                <span class="teacher-banner-label">
+                    YOUR TEACHING SPACE
+                </span>
+
+                <h3>Make every lesson count.</h3>
+
+                <p>
+                    Your classroom, course materials, and teaching activities
+                    are ready for you to manage.
+                </p>
+
+                <a href="{% url 'teacher_my_batch' %}" class="teacher-banner-btn">
+                    <i class="mdi mdi-book-open-page-variant"></i>
+                    Explore My Batches
+                    <i class="mdi mdi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="teacher-banner-art">
+                <div class="teacher-art-circle teacher-art-circle-one"></div>
+                <div class="teacher-art-circle teacher-art-circle-two"></div>
+
+                <div class="teacher-art-icon">
+                    <i class="mdi mdi-human-male-board"></i>
+                </div>
+
+                <div class="teacher-art-book">
+                    <i class="mdi mdi-book-education-outline"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section Heading -->
+        <div class="teacher-section-heading">
+            <div>
+                <h4>Your Workspace</h4>
+                <p>Quick access to your teaching activities.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Feature Cards -->
+        <div class="row teacher-dashboard-grid">
+
+            <!-- My Batches -->
+            <div class="col-md-6 col-xl-4 teacher-dashboard-column">
+
+                <div class="teacher-feature-card">
+
+                    <div class="teacher-feature-top">
+                        <div class="teacher-feature-icon batches-feature-icon">
+                            <i class="mdi mdi-book-multiple-outline"></i>
+                        </div>
+
+                        <span class="teacher-feature-number">01</span>
+                    </div>
+
+                    <h5>My Batches</h5>
+
+                    <p>
+                        View your assigned courses and manage the batches
+                        you teach to your students.
+                    </p>
+
+                    <a href="{% url 'teacher_my_batch' %}" class="teacher-feature-link">
+                        View My Batches
+                        <i class="mdi mdi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Live Teaching -->
+            <div class="col-md-6 col-xl-4 teacher-dashboard-column">
+
+                <div class="teacher-feature-card">
+
+                    <div class="teacher-feature-top">
+                        <div class="teacher-feature-icon live-feature-icon">
+                            <i class="mdi mdi-video-outline"></i>
+                        </div>
+
+                        <span class="teacher-feature-number">02</span>
+                    </div>
+
+                    <h5>Live Teaching</h5>
+
+                    <p>
+                        Keep your scheduled live sessions organized
+                        and connect with students during class.
+                    </p>
+
+                    <a href="{% url 'teacher_my_batch' %}" class="teacher-feature-link">
+                        Create Live Class
+                        <i class="mdi mdi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Learning Resources -->
+            <div class="col-md-6 col-xl-4 teacher-dashboard-column">
+
+                <div class="teacher-feature-card">
+
+                    <div class="teacher-feature-top">
+                        <div class="teacher-feature-icon resources-feature-icon">
+                            <i class="mdi mdi-file-document-multiple-outline"></i>
+                        </div>
+
+                        <span class="teacher-feature-number">03</span>
+                    </div>
+
+                    <h5>Learning Resources</h5>
+
+                    <p>
+                        Keep your course lectures and study materials
+                        organized for a better student learning experience.
+                    </p>
+
+                    <div class="teacher-feature-note">
+                        <i class="mdi mdi-folder-open-outline"></i>
+                        Course materials
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Bottom Information -->
+        <div class="teacher-dashboard-tip">
+            <div class="teacher-tip-icon">
+                <i class="mdi mdi-lightbulb-on-outline"></i>
+            </div>
+
+            <div>
+                <h6>A little reminder</h6>
+                <p>
+                    Keep your course materials updated and make your
+                    learning sessions engaging for every student.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 {% endblock %}

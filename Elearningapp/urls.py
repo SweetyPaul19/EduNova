@@ -50,7 +50,6 @@ urlpatterns=[
     path('teacher_my_batch',views.teacher_my_batch,name='teacher_my_batch'),
     path('teacher_view_batch/<int:id>',views.teacher_view_batch,name='teacher_view_batch'),
     path('admin_viewalldetails_teachers',views.admin_viewalldetails_teachers,name='admin_viewalldetails_teachers'),
-    path('Upload_lecture/<int:id>',views.Upload_leacture,name='Upload_leacture'),
     path('create_live_class/<int:id>/',views.create_live_class,name='create_live_class'),
     path('teacher_live_class/<int:id>/',views.teacher_live_class,name='teacher_live_class'),
     path('student_live_class/<int:id>/',views.student_live_class,name='student_live_class'),
@@ -65,4 +64,7 @@ urlpatterns=[
     path('student/practice-tests/<int:test_id>/start/',views.start_practice_test,name='start_practice_test'),
     path('student/practice-tests/submit/<int:attempt_id>/',views.submit_practice_test,name='submit_practice_test'),
     path('student/practice-tests/result/<int:attempt_id>/',views.test_result,name='test_result'),
+    path('upload_study_material/<int:id>/',views.upload_study_material,name='upload_study_material'),
+    path('delete_study_material/<int:id>/',views.delete_study_material,name='delete_study_material'),
+    path('study-material/view/<int:id>/',views.view_study_material,name='view_study_material'),
 ]

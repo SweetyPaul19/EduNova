@@ -1,300 +1,224 @@
 {% extends 'user_profile_master.html' %}
 {% load static %}
 
-
 {% block content %}
-<div class="main-panel">
-<div class="content-wrapper practice-page">
 
+<link rel="stylesheet" href="{% static 'assets/css/student_practice_tests.css' %}">
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
+<div class="main-panel practice-page">
+    <div class="content-wrapper">
 
-    <div class="practice-hero">
+        <!-- Page Header -->
+        <div class="practice-header">
+            <div class="practice-header-text">
+                <span class="practice-eyebrow">EDUNOVA LEARNING</span>
+                <h2>Practice Tests <span class="heading-dot">.</span></h2>
+                <p>Prepare smarter. Track your progress. Achieve more.</p>
+            </div>
 
-        <div class="practice-hero-content">
-
-            <h2>
-                <i class="mdi mdi-file-document-edit-outline"></i>
-                Practice Tests
-            </h2>
-
-            <p>
-                Challenge yourself, test your knowledge,
-                and improve your preparation.
-            </p>
-
+            <div class="header-icon">
+                <i class="mdi mdi-notebook-edit-outline"></i>
+            </div>
         </div>
 
-    </div>
+        <!-- Overview -->
+        <div class="practice-overview">
+            <div class="overview-text">
+                <span class="overview-label">YOUR PREPARATION</span>
+                <h4>Ready to challenge yourself?</h4>
+                <p>Choose a test below and put your knowledge to work.</p>
+            </div>
 
+            <div class="overview-decoration">
+                <i class="mdi mdi-target"></i>
+            </div>
+        </div>
 
-    <!-- =========================================
-         SECTION HEADING
-    ========================================== -->
+        <!-- Section Heading -->
+        <div class="tests-section-heading">
+            <div>
+                <h4>Available Tests</h4>
+                <p>Tests assigned to your enrolled courses</p>
+            </div>
 
-    <div class="section-heading">
+            {% if tests %}
+                <span class="test-count">
+                    <i class="mdi mdi-file-document-multiple-outline"></i>
+                    {{ tests|length }} Test{{ tests|length|pluralize }}
+                </span>
+            {% endif %}
+        </div>
 
-        <h4>
-            Available Tests
-        </h4>
+        <!-- Test Cards -->
+        <div class="row practice-test-grid">
 
-    </div>
+            {% if tests %}
 
+                {% for test in tests %}
 
-    <!-- =========================================
-         TESTS
-    ========================================== -->
+                    <div class="col-md-6 col-xl-4 test-wrapper">
 
-    <div class="row">
+                        <div class="practice-test-card">
 
-        {% if tests %}
-
-            {% for test in tests %}
-
-                <div class="col-md-6 col-lg-4 test-wrapper">
-
-                    <div class="test-card">
-
-                        <div class="test-card-accent"></div>
-
-                        <div class="test-card-body">
-
-
-                            <!-- Badge -->
-
-                            <div class="test-badge">
-
-                                <i class="mdi mdi-file-document-outline"></i>
-
-                                Practice Test
-
-                            </div>
-
-
-                            <!-- Title -->
-
-                            <div class="test-title">
-
-                                {{ test.title }}
-
-                            </div>
-
-
-                            <!-- Course -->
-
-                            <div class="test-course">
-
-                                <i class="mdi mdi-book-open-variant"></i>
-
-                                {{ test.course.name }}
-
-                            </div>
-
-
-                            <!-- Description -->
-
-                            {% if test.description %}
-
-                                <div class="test-description">
-
-                                    {{ test.description }}
-
+                            <!-- Card Header -->
+                            <div class="test-card-header">
+                                <div class="test-file-icon">
+                                    <i class="mdi mdi-file-document-edit-outline"></i>
                                 </div>
 
-                            {% else %}
+                                <span class="test-type-label">
+                                    PRACTICE TEST
+                                </span>
 
-                                <div class="test-description">
+                                <span class="test-number">
+                                    {{ forloop.counter|stringformat:"02d" }}
+                                </span>
+                            </div>
 
-                                    Test your knowledge and check
-                                    your understanding of this course.
+                            <!-- Main Content -->
+                            <div class="test-card-content">
 
+                                <div class="test-course-label">
+                                    <i class="mdi mdi-book-open-page-variant-outline"></i>
+                                    <span>{{ test.course.name }}</span>
                                 </div>
 
-                            {% endif %}
+                                <h3 class="test-card-title">
+                                    {{ test.title }}
+                                </h3>
 
+                                <p class="test-card-description">
+                                    {% if test.description %}
+                                        {{ test.description }}
+                                    {% else %}
+                                        Test your understanding and strengthen
+                                        your knowledge of this course.
+                                    {% endif %}
+                                </p>
 
-                            <!-- =====================================
-                                 IMPORTANT INFORMATION
-                            ====================================== -->
+                                <!-- Statistics -->
+                                <div class="test-statistics">
 
-                            <div class="important-info">
-
-
-                                <!-- Duration + Marks -->
-
-                                <div class="main-stats">
-
-
-                                    <!-- Duration -->
-
-                                    <div class="main-stat duration-box">
-
-                                        <i class="mdi mdi-clock-fast"></i>
-
-                                        <strong>
-                                            {{ test.duration }}
-                                        </strong>
-
-                                        <span>
-                                            Minutes
-                                        </span>
-
-                                    </div>
-
-
-                                    <!-- Total Marks -->
-
-                                    <div class="main-stat marks-box">
-
-                                        <i class="mdi mdi-star-circle"></i>
-
-                                        <strong>
-                                            {{ test.total_marks }}
-                                        </strong>
-
-                                        <span>
-                                            Total Marks
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <!-- =================================
-                                     START + END TIME
-                                ================================== -->
-
-                                <div class="schedule-container">
-
-
-                                    <!-- Start -->
-
-                                    <div class="schedule-box start-box">
-
-                                        <div class="schedule-top">
-
-                                            <div class="schedule-icon">
-
-                                                <i class="mdi mdi-play-circle-outline"></i>
-
-                                            </div>
-
-                                            <span class="schedule-label">
-                                                Starts
-                                            </span>
-
+                                    <div class="test-stat-item">
+                                        <div class="stat-icon duration-icon">
+                                            <i class="mdi mdi-clock-outline"></i>
                                         </div>
 
-                                        <span class="schedule-value">
-
-                                            {{ test.start_time|date:"d M Y, h:i A" }}
-
-                                        </span>
-
+                                        <div class="stat-text">
+                                            <span>Duration</span>
+                                            <strong>{{ test.duration }} min</strong>
+                                        </div>
                                     </div>
 
+                                    <div class="test-stat-divider"></div>
 
-                                    <!-- End -->
-
-                                    <div class="schedule-box end-box">
-
-                                        <div class="schedule-top">
-
-                                            <div class="schedule-icon">
-
-                                                <i class="mdi mdi-stop-circle-outline"></i>
-
-                                            </div>
-
-                                            <span class="schedule-label">
-                                                Ends
-                                            </span>
-
+                                    <div class="test-stat-item">
+                                        <div class="stat-icon marks-icon">
+                                            <i class="mdi mdi-star-outline"></i>
                                         </div>
 
-                                        <span class="schedule-value">
-
-                                            {{ test.end_time|date:"d M Y, h:i A" }}
-
-                                        </span>
-
+                                        <div class="stat-text">
+                                            <span>Total Marks</span>
+                                            <strong>{{ test.total_marks }}</strong>
+                                        </div>
                                     </div>
-
 
                                 </div>
 
+                                <!-- Schedule -->
+                                <div class="test-schedule">
+
+                                    <div class="schedule-heading">
+                                        <i class="mdi mdi-calendar-clock-outline"></i>
+                                        <span>TEST SCHEDULE</span>
+                                    </div>
+
+                                    <div class="schedule-item">
+                                        <div class="schedule-indicator start-indicator"></div>
+
+                                        <div class="schedule-details">
+                                            <span class="schedule-caption">Starts on</span>
+                                            <strong>
+                                                {{ test.start_time|date:"d M Y" }}
+                                            </strong>
+                                            <span class="schedule-time">
+                                                {{ test.start_time|date:"h:i A" }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="schedule-item">
+                                        <div class="schedule-indicator end-indicator"></div>
+
+                                        <div class="schedule-details">
+                                            <span class="schedule-caption">Ends on</span>
+                                            <strong>
+                                                {{ test.end_time|date:"d M Y" }}
+                                            </strong>
+                                            <span class="schedule-time">
+                                                {{ test.end_time|date:"h:i A" }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Action -->
+                                <a href="{% url 'start_practice_test' test.id %}"
+                                   class="start-test-btn">
+
+                                    <span class="start-btn-icon">
+                                        <i class="mdi mdi-play"></i>
+                                    </span>
+
+                                    <span>Start Test</span>
+
+                                    <i class="mdi mdi-arrow-right start-btn-arrow"></i>
+                                </a>
+
                             </div>
-
-
-                            <!-- =====================================
-                                 START TEST
-                            ====================================== -->
-
-                            <a
-                                href="{% url 'start_practice_test' test.id %}"
-                                class="btn start-test-btn">
-
-                                <i class="mdi mdi-play-circle"></i>
-
-                                &nbsp; Start Test
-
-                                <i
-                                    class="mdi mdi-arrow-right"
-                                    style="float:right; margin-right:0;">
-                                </i>
-
-                            </a>
-
 
                         </div>
 
                     </div>
 
-                </div>
+                {% endfor %}
 
-            {% endfor %}
+            {% else %}
 
+                <!-- Empty State -->
+                <div class="col-12">
+                    <div class="practice-empty-state">
 
-        {% else %}
+                        <div class="empty-state-icon">
+                            <i class="mdi mdi-clipboard-text-outline"></i>
+                        </div>
 
+                        <h4>No Practice Tests Yet</h4>
 
-            <!-- =========================================
-                 EMPTY STATE
-            ========================================== -->
-
-            <div class="col-12">
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-
-                        <i class="mdi mdi-file-document-outline"></i>
+                        <p>
+                            There are currently no practice tests available
+                            for your enrolled courses. Check back later for
+                            new tests from your teachers.
+                        </p>
 
                     </div>
-
-                    <h4>
-                        No Practice Tests Available
-                    </h4>
-
-                    <p>
-                        There are currently no practice tests
-                        available for your enrolled courses.
-                    </p>
-
                 </div>
 
-            </div>
+            {% endif %}
 
+        </div>
 
-        {% endif %}
+        <!-- Footer Note -->
+        <div class="practice-footer-note">
+            <i class="mdi mdi-lightbulb-outline"></i>
+            <span>
+                <strong>Preparation tip:</strong>
+                Find a quiet place and check the test duration before starting.
+            </span>
+        </div>
 
     </div>
-
-</div>
-
 </div>
 
 {% endblock %}

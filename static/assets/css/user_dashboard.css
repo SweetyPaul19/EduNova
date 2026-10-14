@@ -1,0 +1,435 @@
+/* =========================================
+   EDUNOVA STUDENT DASHBOARD
+========================================= */
+
+.student-dashboard {
+    padding: 28px;
+    background: #f6f8fc;
+    min-height: calc(100vh - 70px);
+    font-family: inherit;
+}
+
+/* Welcome Hero */
+
+.dashboard-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 38px 42px;
+    min-height: 265px;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(120deg, #4f46e5, #705cf6 55%, #8b5cf6);
+    color: #ffffff;
+    margin-bottom: 35px;
+}
+
+.dashboard-hero::before,
+.dashboard-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+}
+
+.dashboard-hero::before {
+    width: 300px;
+    height: 300px;
+    right: 12%;
+    top: -180px;
+}
+
+.dashboard-hero::after {
+    width: 230px;
+    height: 230px;
+    right: -65px;
+    bottom: -145px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+}
+
+.hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.hero-content h2 {
+    color: #ffffff;
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 750;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.hero-content p {
+    max-width: 510px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 23px;
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 19px;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #5145cd !important;
+    text-decoration: none !important;
+    font-size: 13px;
+    font-weight: 700;
+    transition: background 0.2s ease;
+}
+
+.hero-btn:hover {
+    background: #f0efff;
+}
+
+.hero-illustration {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 185px;
+    height: 185px;
+    margin-right: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-illustration > i {
+    color: #ffffff;
+    font-size: 105px;
+}
+
+.floating-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 47px;
+    height: 47px;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #6652e8;
+    box-shadow: 0 8px 20px rgba(32, 25, 100, 0.15);
+    font-size: 23px;
+}
+
+.icon-one {
+    top: 7px;
+    right: -8px;
+}
+
+.icon-two {
+    left: -15px;
+    bottom: 15px;
+    color: #f59e0b;
+}
+
+/* Section Heading */
+
+.dashboard-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dashboard-section-heading h3 {
+    color: #202944;
+    font-size: 21px;
+    font-weight: 750;
+    margin: 0 0 7px;
+}
+
+.dashboard-section-heading p {
+    color: #8790a5;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Learning Cards */
+
+.dashboard-cards {
+    row-gap: 22px;
+}
+
+.dashboard-cards > div {
+    margin-bottom: 0;
+}
+
+.learning-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 295px;
+    padding: 26px;
+    overflow: hidden;
+    border-radius: 17px;
+    border: 1px solid #e9edf5;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(38, 51, 91, 0.045);
+}
+
+.test-card {
+    border-top: 4px solid #f07852;
+}
+
+.courses-card {
+    border-top: 4px solid #16b8a6;
+}
+
+.learning-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.learning-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    font-size: 28px;
+}
+
+.test-card .learning-icon {
+    background: #fff0e9;
+    color: #ec754e;
+}
+
+.courses-card .learning-icon {
+    background: #e4faf5;
+    color: #0ba894;
+}
+
+.card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 20px;
+    background: #f5f7fb;
+    color: #707a91;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #20b486;
+}
+
+.learning-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.card-eyebrow {
+    display: block;
+    margin-bottom: 9px;
+    color: #939bb0;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.1px;
+}
+
+.learning-card-content h4 {
+    color: #242d45;
+    font-size: 20px;
+    font-weight: 750;
+    margin-bottom: 11px;
+}
+
+.learning-card-content p {
+    max-width: 430px;
+    color: #7b8499;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 22px;
+}
+
+.learning-card-link {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 9px;
+    margin-top: auto;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 0.2s ease;
+}
+
+.test-card .learning-card-link {
+    color: #df6844 !important;
+    background: #fff0e9;
+}
+
+.test-card .learning-card-link:hover {
+    background: #ffe1d4;
+}
+
+.courses-card .learning-card-link {
+    color: #079887 !important;
+    background: #e4faf5;
+}
+
+.courses-card .learning-card-link:hover {
+    background: #d1f5ed;
+}
+
+.card-decoration {
+    position: absolute;
+    right: 10px;
+    bottom: 25px;
+    color: #f5f6fa;
+    font-size: 100px;
+    pointer-events: none;
+}
+
+/* Learning Tip */
+
+.dashboard-tip {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 21px 24px;
+    margin-top: 30px;
+    border: 1px solid #e8e9ff;
+    border-radius: 15px;
+    background: #f0efff;
+}
+
+.tip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #ffffff;
+    color: #6855e8;
+    font-size: 25px;
+}
+
+.dashboard-tip h5 {
+    color: #34315f;
+    font-size: 14px;
+    font-weight: 750;
+    margin: 0 0 6px;
+}
+
+.dashboard-tip p {
+    color: #777797;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 991px) {
+    .student-dashboard {
+        padding: 22px;
+    }
+
+    .dashboard-hero {
+        padding: 30px;
+    }
+
+    .hero-illustration {
+        width: 145px;
+        height: 145px;
+        margin-right: 12px;
+    }
+
+    .hero-illustration > i {
+        font-size: 82px;
+    }
+}
+
+@media (max-width: 767px) {
+    .student-dashboard {
+        padding: 15px;
+    }
+
+    .dashboard-hero {
+        padding: 27px 22px;
+        min-height: auto;
+        margin-bottom: 27px;
+    }
+
+    .hero-illustration {
+        display: none;
+    }
+
+    .hero-content h2 {
+        font-size: 25px;
+    }
+
+    .dashboard-section-heading h3 {
+        font-size: 19px;
+    }
+
+    .learning-card {
+        min-height: 280px;
+        padding: 22px;
+    }
+
+    .dashboard-tip {
+        align-items: flex-start;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    .learning-card-top {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .card-status {
+        font-size: 10px;
+    }
+
+    .hero-btn {
+        font-size: 12px;
+    }
+}

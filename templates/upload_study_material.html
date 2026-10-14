@@ -1,0 +1,158 @@
+{% extends 'teachers_master.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper" style="background:#f5f7fc; min-height:100vh; padding:25px;">
+
+        <div style="background:linear-gradient(120deg,#3825a8,#7357ed);
+                    padding:28px; border-radius:16px; color:white; margin-bottom:25px;">
+
+            <h3 style="color:white; font-weight:700;">
+                <i class="mdi mdi-book-open-page-variant"></i>
+                Upload Study Material
+            </h3>
+
+            <p style="color:#e7e3ff; margin-bottom:0;">
+                Course: {{ batch.name }}
+            </p>
+        </div>
+
+        <div class="card" style="border:0; border-radius:16px; box-shadow:0 4px 18px rgba(40,50,90,.06);">
+            <div class="card-body" style="padding:30px;">
+
+                <h4 class="card-title">Material Details</h4>
+
+                <p class="text-muted">
+                    Upload notes and learning resources for enrolled students.
+                </p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="POST"
+                      enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <div class="form-group mb-4">
+                        <label style="font-weight:600;">Title</label>
+                        <input type="text"
+                               name="title"
+                               class="form-control"
+                               placeholder="Title of the material"
+                               maxlength="200"
+                               required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label style="font-weight:600;">Select Study Material</label>
+                        <input type="file"
+                               name="file"
+                               class="form-control"
+                               accept=".pdf"
+                               required>
+
+                        <small class="text-muted">
+                            Supported formats: PDF
+                        </small>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-gradient-primary">
+                        <i class="mdi mdi-cloud-upload"></i>
+                        Upload Material
+                    </button>
+
+                    <a href="{% url 'teacher_view_batch' batch.id %}"
+                       class="btn btn-light">
+                        Cancel
+                    </a>
+
+                </form>
+
+            </div>
+        </div>
+
+<!-- Uploaded Study Materials Table -->
+        <div class="card mt-4"
+            style="border:0; border-radius:16px;
+                    box-shadow:0 4px 18px rgba(40,50,90,.06);">
+
+            <div class="card-body" style="padding:30px;">
+
+                <h4 class="card-title">
+                    <i class="mdi mdi-folder-open-outline"></i>
+                    Uploaded Study Materials
+                </h4>
+
+                <p class="text-muted">
+                    View and manage the study materials uploaded for this course.
+                </p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead style="background:#f5f7fc;">
+                            <tr>
+                                <th style="padding:15px;">Title</th>
+                                <th style="padding:15px; width:140px;">Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for material in materials %}
+                            <tr>
+                                <td style="padding:15px; vertical-align:middle;">
+                                    <a href="{{ material.file.url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style="color:#5b45d6; font-weight:600;
+                                            text-decoration:none;">
+                                        <i class="mdi mdi-file-document-outline"></i>
+                                        {{ material.title }}
+                                    </a>
+                                </td>
+
+                                <td style="padding:15px; vertical-align:middle;">
+                                    <form method="POST"
+                                        action="{% url 'delete_study_material' material.id %}"
+                                        onsubmit="return confirm('Are you sure you want to delete this study material?');">
+
+                                        {% csrf_token %}
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="mdi mdi-delete"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="2"
+                                    class="text-center text-muted"
+                                    style="padding:30px;">
+                                    <i class="mdi mdi-file-document-outline"
+                                    style="font-size:32px;"></i>
+                                    <p class="mt-2 mb-0">
+                                        No study materials uploaded yet.
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

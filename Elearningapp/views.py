@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render,redirect
 from Elearningapp.models import *
 from django.contrib import messages
@@ -13,6 +13,8 @@ from datetime import datetime
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from datetime import timedelta
+from django.http import FileResponse
+
 
 import requests
 import random
@@ -22,6 +24,7 @@ import json
 import base64
 import hashlib
 import hmac
+import mimetypes
 
 from django.contrib.auth.models import User
 
@@ -1108,6 +1111,8 @@ def student_view_batch(request, id):
         # Get the selected course
         batche = course.objects.get(id=id)
 
+        materials=StudyMaterial.objects.filter(course=batche).order_by('-uploaded_at')  # Get study materials for this course, ordered by upload date
+
         # Check student's enrollment in this course
         batch = my_batch.objects.filter(
             user_email=eid,
@@ -1155,15 +1160,50 @@ def student_view_batch(request, id):
                 'user': user,
                 'batche': batche,
                 'batch': batch,
-                'live_classes': live_classes
+                'live_classes': live_classes,
+                'materials': materials
             }
         )
-
     else:
-
         messages.success(request, 'Please login!')
-
         return redirect('/user_login')       
+
+def view_study_material(request, id):
+    material = get_object_or_404(StudyMaterial, id=id)
+
+    if not material.file:
+        raise Http404("Study material file not found.")
+
+    filename = os.path.basename(material.file.name)
+
+    # Detect the file type automatically.
+    content_type, _ = mimetypes.guess_type(filename)
+
+    if not content_type:
+        content_type = "application/octet-stream"
+
+    try:
+        file_handle = material.file.open("rb")
+
+        response = FileResponse(
+            file_handle,
+            content_type=content_type
+        )
+
+        # Ask the browser to display the file inline if supported.
+        response["Content-Disposition"] = (
+            f'inline; filename="{filename}"'
+        )
+
+        # Prevent browsers from guessing a different content type.
+        response["X-Content-Type-Options"] = "nosniff"
+
+        return response
+
+    except (FileNotFoundError, OSError, ValueError):
+        raise Http404("Study material file could not be opened.")
+
+
 def teachers_login(request): 
     if request.session.has_key('email'):
         del request.session['email']  #loging out process
@@ -1269,7 +1309,18 @@ def teacher_view_batch(request, id):
         Teacher = teacher.objects.get(email=eid)
         batche=course.objects.get(id=id)  # Retrieve the course object based on the provided ID
         total_students = my_batch.objects.filter(course_id=id, status='Active').count()  # Count the number of active students in the batch with the given course ID
-        all_ready_exist_lectures=upload_lecture.objects.filter(course_id=id, teacher_email=eid)  # Retrieve all lectures uploaded by the teacher for the given course ID
+        # Check whether this teacher is assigned to this course
+        assigned = courseassign.objects.filter(
+            teacherid=str(Teacher.id),
+            course_assigned=batche.name
+        ).exists()
+
+        if not assigned:
+            messages.error(
+                request,
+                'You are not assigned to this course and cannot upload study materials.'
+            )
+            return redirect('teacherdashboard')
         # Get live classes for this course and teacher
         live_classes = LiveClass.objects.filter(
             course=batche,
@@ -1304,27 +1355,27 @@ def teacher_view_batch(request, id):
             else:
 
                 live.class_status = "Ended"
-        return render(request, 'teacher_view_batch.html',{'total_students': total_students, 'Teacher': Teacher,'batche': batche, 'all_ready_exist_lectures': all_ready_exist_lectures, 'live_classes': live_classes})
+        return render(request, 'teacher_view_batch.html',{'total_students': total_students, 'Teacher': Teacher,'batche': batche, 'live_classes': live_classes})
     else:
         messages.success(request, 'Please login!')
         return redirect('/teachers_login')
 
-def Upload_leacture(request, id):
-    if request.session.has_key('email'):
-        eid = request.session['email']
-        Teacher = teacher.objects.get(email=eid)
-        batche=course.objects.get(id=id)  # Retrieve the course object based on the provided ID
-        if request.method == "POST":
-            lecture_title = request.POST['lecture_title']
-            lecture_file = request.FILES['lecture_file']
-            lecture = upload_lecture(course_id=id, lecture_title=lecture_title, lecture_file=lecture_file,teacher_email=eid) # Create a new instance of the recorded_lectures model with the provided course ID, lecture title, lecture file, and teacher email
-            lecture.save()
-            messages.success(request, 'Lecture uploaded successfully')
-            return redirect('/teacher_my_batch')
-        return render(request, 'teacher_view_batch.html', {'Teacher': Teacher, 'batche': batche, 'all_ready_exist_lectures': all_ready_exist_lectures})
-    else:
-        messages.success(request, 'Please login!')
-        return redirect('/teachers_login')
+# def Upload_leacture(request, id):
+#     if request.session.has_key('email'):
+#         eid = request.session['email']
+#         Teacher = teacher.objects.get(email=eid)
+#         batche=course.objects.get(id=id)  # Retrieve the course object based on the provided ID
+#         if request.method == "POST":
+#             lecture_title = request.POST['lecture_title']
+#             lecture_file = request.FILES['lecture_file']
+#             lecture = upload_lecture(course_id=id, lecture_title=lecture_title, lecture_file=lecture_file,teacher_email=eid) # Create a new instance of the recorded_lectures model with the provided course ID, lecture title, lecture file, and teacher email
+#             lecture.save()
+#             messages.success(request, 'Lecture uploaded successfully')
+#             return redirect('/teacher_my_batch')
+#         return render(request, 'teacher_view_batch.html', {'Teacher': Teacher, 'batche': batche, 'all_ready_exist_lectures': all_ready_exist_lectures})
+#     else:
+#         messages.success(request, 'Please login!')
+#         return redirect('/teachers_login')
 
 def create_live_class(request, id):
 
@@ -1344,14 +1395,16 @@ def create_live_class(request, id):
             scheduled_date = request.POST.get('scheduled_date')
             start_time = request.POST.get('start_time')
             end_time = request.POST.get('end_time')
-
+            # Generate a unique room ID
+            room_id = uuid.uuid4().hex
             LiveClass.objects.create(
                 course=batche,
                 teacher=Teacher,
                 title=title,
                 scheduled_date=scheduled_date,
                 start_time=start_time,
-                end_time=end_time
+                end_time=end_time,
+                room_id=room_id
             )
 
             messages.success(
@@ -1541,6 +1594,47 @@ def student_live_class(request, id):
             'user': user
         }
     )
+
+def upload_study_material(request, id):
+    if not request.session.has_key('email'):
+        messages.success(request,'please login!')
+        return redirect('/teachers_login')
+    Teacher=get_object_or_404(teacher,email=request.session['email'])
+    batch=get_object_or_404(course,id=id)
+    # Check whether this teacher is assigned to this course
+    assigned = courseassign.objects.filter(
+        teacherid=str(Teacher.id),
+        course_assigned=batch.name
+    ).exists()
+
+    if not assigned:
+        return redirect('teacherdashboard')
+    if request.method == 'POST':
+        title=request.POST['title']
+        file=request.FILES.get('file')
+        StudyMaterial.objects.create(
+            course=batch,
+            teacher=Teacher,
+            title=title,
+            file=file
+        )
+        messages.success(request, 'Study material uploaded successfully!')
+    materials=StudyMaterial.objects.filter(course=batch,teacher=Teacher)    
+    return render(request,'upload_study_material.html',{'batch': batch,'Teacher': Teacher,'materials': materials})
+
+def delete_study_material(request,id):
+    if not request.session.has_key('email'):
+        messages.success(request,'please login!')
+        return redirect('/teachers_login')
+    Teacher=get_object_or_404(teacher,email=request.session['email'])
+    material=get_object_or_404(StudyMaterial,id=id) # Get the study material object based on the provided ID
+    batch=material.course # Get the course associated with the study material
+    if material.teacher != Teacher:
+        messages.error(request,'You are not the owner of this material!')
+        return redirect('/upload_study_material/'+str(batch.id))
+    material.delete()
+    messages.success(request,'Study material deleted successfully!')
+    return redirect('/upload_study_material/'+str(batch.id))
 
 def conduct_test(request, id):
 

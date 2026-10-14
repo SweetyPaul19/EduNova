@@ -2,41 +2,138 @@
 {% load static %}
 
 {% block content %}
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title">
-                Hi, wellcome {{ ename }}
-              </h3>
+
+<div class="main-panel">
+  <div class="content-wrapper student-dashboard">
+
+    <!-- Welcome Section -->
+    <div class="dashboard-hero">
+      <div class="hero-content">
+        <span class="hero-label">
+          <i class="mdi mdi-school"></i> EDUNOVA LEARNING
+        </span>
+
+        <h2>Welcome back, {{ ename }}!</h2>
+
+        <p>
+          Keep learning, explore your courses, and test your knowledge.
+          Your next achievement starts here.
+        </p>
+
+        <a href="{% url 'student_practice_tests' %}" class="hero-btn">
+          Explore Practice Tests
+          <i class="mdi mdi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="hero-illustration">
+        <i class="mdi mdi-book-education-outline"></i>
+        <span class="floating-icon icon-one">
+          <i class="mdi mdi-lightbulb-on-outline"></i>
+        </span>
+        <span class="floating-icon icon-two">
+          <i class="mdi mdi-trophy-outline"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Section Heading -->
+    <div class="dashboard-section-heading">
+      <div>
+        <h3>Your Learning Space</h3>
+        <p>Everything you need to keep moving forward.</p>
+      </div>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row dashboard-cards">
+
+      <!-- Practice Tests -->
+      <div class="col-lg-6 col-md-6 col-sm-12 stretch-card">
+        <div class="learning-card test-card">
+
+          <div class="learning-card-top">
+            <div class="learning-icon">
+              <i class="mdi mdi-clipboard-text-clock-outline"></i>
             </div>
-            <div class="row">
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-end"></i>
-                    </h4>
-                    <h2 class="mb-5">$ 15,0000</h2>
-                    <h6 class="card-text">Increased by 60%</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{% static 'assets/images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Online test <i class="mdi mdi-chart-line mdi-24px float-end"></i>
-                    </h4>
-                    <a href="{% url 'student_practice_tests' %}"><h2 class="mb-5">Live test</h2></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
+
+            <span class="card-status">
+              <span class="status-dot"></span>
+              Ready to start
+            </span>
           </div>
-          {% endblock %}
-         
-          
+
+          <div class="learning-card-content">
+            <span class="card-eyebrow">TEST YOUR KNOWLEDGE</span>
+            <h4>Online Practice Tests</h4>
+
+            <p>
+              Practice what you have learned, challenge yourself,
+              and improve your understanding with online tests.
+            </p>
+          </div>
+
+          <a href="{% url 'student_practice_tests' %}"
+             class="learning-card-link">
+            Start Practicing
+            <i class="mdi mdi-arrow-top-right"></i>
+          </a>
+
+          <i class="mdi mdi-clipboard-check-outline card-decoration"></i>
+        </div>
+      </div>
+
+      <!-- My Courses -->
+      <div class="col-lg-6 col-md-6 col-sm-12 stretch-card">
+        <div class="learning-card courses-card">
+
+          <div class="learning-card-top">
+            <div class="learning-icon">
+              <i class="mdi mdi-book-open-page-variant-outline"></i>
+            </div>
+
+            <span class="card-status">
+              Keep learning
+            </span>
+          </div>
+
+          <div class="learning-card-content">
+            <span class="card-eyebrow">YOUR LEARNING JOURNEY</span>
+            <h4>My Courses</h4>
+
+            <p>
+              Continue learning from your enrolled courses and
+              revisit your learning materials whenever you need.
+            </p>
+          </div>
+
+          <a href="{% url 'My_Batch' %}" class="learning-card-link">
+            View My Courses
+            <i class="mdi mdi-arrow-top-right"></i>
+          </a>
+
+          <i class="mdi mdi-school-outline card-decoration"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Information -->
+    <div class="dashboard-tip">
+      <div class="tip-icon">
+        <i class="mdi mdi-lightbulb-on-outline"></i>
+      </div>
+
+      <div>
+        <h5>Small steps lead to big achievements</h5>
+        <p>
+          Set aside a little time every day to learn, revise,
+          and practise your skills.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

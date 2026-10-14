@@ -1,13 +1,10 @@
 {% extends 'user_profile_master.html' %}
 
 {% load static %}
-
-{% block content %}
-
-<div class="main-panel">
+<!--<div class="main-panel">
     <div class="content-wrapper">
 
-        <!-- Course Header -->
+        Course Header 
         <div class="page-header">
             <h3 class="page-title">
                 {{ batche.name }}
@@ -15,7 +12,7 @@
         </div>
 
 
-        <!-- Live Classes -->
+        Live Classes
         <div class="row">
 
             <div class="col-lg-12 grid-margin stretch-card">
@@ -156,6 +153,582 @@
 
             </div>
 
+        </div>
+
+    </div>
+</div>
+-->
+<style>
+    /* =========================================
+   STUDY MATERIALS SECTION
+========================================= */
+
+.study-materials-section {
+    margin-top: 35px;
+    margin-bottom: 30px;
+}
+
+.study-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.study-eyebrow {
+    display: block;
+    color: #159d87;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.study-section-heading h4 {
+    color: #202b46;
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.study-section-heading h4 i {
+    color: #159d87;
+    margin-right: 7px;
+}
+
+.study-section-heading p {
+    color: #7b8498;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.study-total-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #e4f8f2;
+    color: #13866f;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Material Card */
+
+.study-material-card {
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e6eaf1;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(34, 48, 75, 0.05);
+}
+
+.study-material-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 22px 15px;
+    background: #f1fbf8;
+    border-bottom: 1px solid #e0f2ec;
+}
+
+.study-material-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #d6f5eb;
+    color: #12866f;
+    border-radius: 12px;
+    font-size: 28px;
+}
+
+.study-material-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    background: #d9f5e7;
+    color: #16804c;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.study-material-body {
+    padding: 22px;
+}
+
+.study-material-label {
+    display: block;
+    color: #159d87;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+
+.study-material-body h5 {
+    color: #202b46;
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    margin-bottom: 10px;
+}
+
+.study-material-description {
+    color: #7b8498;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 44px;
+    margin-bottom: 18px;
+}
+
+.study-material-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #69758c;
+    background: #f6f8fb;
+    border-radius: 7px;
+    padding: 11px;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+.study-material-date i {
+    color: #159d87;
+    font-size: 17px;
+}
+
+/* View Button */
+
+.study-view-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 8px;
+    background: #159d87;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none !important;
+}
+
+.study-view-btn i {
+    font-size: 18px;
+}
+
+.study-action-arrow {
+    margin-left: auto;
+}
+
+/* Empty State */
+
+.study-empty-state {
+    text-align: center;
+    padding: 45px 20px;
+    background: #ffffff;
+    border: 1px dashed #cbd8e2;
+    border-radius: 14px;
+}
+
+.study-empty-icon {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #e4f8f2;
+    color: #159d87;
+    font-size: 34px;
+}
+
+.study-empty-state h5 {
+    color: #202b46;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.study-empty-state p {
+    max-width: 480px;
+    margin: 0 auto;
+    color: #7b8498;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Responsive */
+
+@media (max-width: 576px) {
+    .study-section-heading h4 {
+        font-size: 20px;
+    }
+
+    .study-material-card-top {
+        padding: 17px;
+    }
+
+    .study-material-body {
+        padding: 18px;
+    }
+}
+</style>
+{% block content %}
+
+
+<div class="main-panel live-classes-page">
+    <div class="content-wrapper">
+
+        <!-- Page Header -->
+        <div class="live-page-header">
+            <div class="live-header-content">
+                <span class="live-eyebrow">EDUNOVA CLASSROOM</span>
+
+                <h2>
+                    Live Classes<span class="live-heading-dot">.</span>
+                </h2>
+
+                <p>
+                    Join your teacher, learn together, and stay on track.
+                </p>
+            </div>
+
+            <div class="live-header-icon">
+                <i class="mdi mdi-video-wireless-outline"></i>
+            </div>
+        </div>
+
+        <!-- Course Banner -->
+        <div class="live-course-banner">
+            <div class="course-banner-icon">
+                <i class="mdi mdi-book-open-page-variant"></i>
+            </div>
+
+            <div class="course-banner-content">
+                <span>YOUR CURRENT COURSE</span>
+                <h4>{{ batche.name }}</h4>
+                <p>View your scheduled classes and join live sessions.</p>
+            </div>
+
+            <div class="course-banner-decoration">
+                <i class="mdi mdi-school-outline"></i>
+            </div>
+        </div>
+                <!-- Study Materials Section -->
+        <div class="study-materials-section" style="margin-top: 35px; margin-bottom: 30px;">
+
+            <!-- Section Heading -->
+            <div class="study-section-heading" style="display: flex;justify-content: space-between;align-items: center;gap: 15px;flex-wrap: wrap;margin-bottom: 24px;">
+                <div>
+                    <span class="study-eyebrow" style="display: block;color: #159d87;font-size: 11px;font-weight: 800;letter-spacing: 1.5px;margin-bottom: 8px;">LEARNING RESOURCES</span>
+                    <h4 style="color: #202b46;font-size: 23px;font-weight: 700;margin-bottom: 8px;">
+                        <i class="mdi mdi-book-open-page-variant" style="color: #159d87;margin-right: 7px;"></i>
+                        View Study Materials
+                    </h4>
+                    <p style="color: #7b8498;font-size: 13px;margin-bottom: 0;">Access notes, PDFs, and other learning resources shared by your teacher.</p>
+                </div>
+
+                {% if materials %}
+                    <span class="study-total-count" style="display: inline-flex;align-items: center;gap: 7px;background: #e4f8f2;color: #13866f;padding: 10px 15px;border-radius: 8px;font-size: 12px;font-weight: 700;">
+                        <i class="mdi mdi-file-document-multiple-outline"></i>
+                        {{ materials|length }} Material{{ materials|length|pluralize }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- Study Material Cards -->
+            <div class="row study-material-grid">
+                    <div class="table-responsive study-materials-table-wrapper">
+
+                        <table class="table study-materials-table">
+
+                            <thead>
+                                <tr>
+                                    <th>SL No.</th>
+                                    <th>Study Material Title</th>
+                                    <th>Uploaded Date</th>
+                                    <th>View</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for material in materials %}
+                                <tr>
+
+                                    <td>{{ forloop.counter }}</td>
+
+                                    <!-- Material Title -->
+                                    <td>
+                                        <a href="{{ material.file.url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="material-title-link">
+                                            <i class="mdi mdi-file-document-outline"></i>
+                                            {{ material.title }}
+                                        </a>
+                                    </td>
+
+                                    <!-- Uploaded Date -->
+                                    <td>
+                                        {% if material.uploaded_at %}
+                                            <span class="material-date">
+                                                <i class="mdi mdi-calendar-clock"></i>
+                                                {{ material.uploaded_at|date:"d M Y" }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">Not available</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- View Button -->
+                                    <td>
+                                        <a href="{% url 'view_study_material' material.id %}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="material-view-btn">
+                                            <i class="mdi mdi-eye-outline"></i>
+                                            View
+                                        </a>
+                                    </td>
+
+                                    <!-- Download Button -->
+                                    <td>
+                                        <a href="{{ material.file.url }}"
+                                        download
+                                        class="material-download-btn">
+                                            <i class="mdi mdi-download"></i>
+                                            Download
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="study-materials-empty">
+                                        <i class="mdi mdi-file-document-outline"></i>
+                                        <p>No study materials are available yet.</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+            </div>
+
+        </div>
+        <!-- Section Heading -->
+        <div class="live-section-heading">
+            <div>
+                <h4>Class Schedule</h4>
+                <p>Check the timing and availability of each session.</p>
+            </div>
+
+            {% if live_classes %}
+                <span class="live-total-count">
+                    <i class="mdi mdi-calendar-multiple"></i>
+                    {{ live_classes|length }}
+                    Class{{ live_classes|length|pluralize }}
+                </span>
+            {% endif %}
+        </div>
+
+        <!-- Live Class Cards -->
+        <div class="row live-class-grid">
+
+            {% if live_classes %}
+
+                {% for live in live_classes %}
+
+                    <div class="col-md-6 col-xl-4 live-class-column">
+
+                        <div class="live-class-card">
+
+                            <!-- Card Top -->
+                            <div class="live-card-top">
+
+                                <div class="live-card-icon">
+                                    <i class="mdi mdi-video-outline"></i>
+                                </div>
+
+                                <div class="live-status-wrap">
+
+                                    {% if live.class_status == "Upcoming" %}
+
+                                        <span class="live-status status-upcoming">
+                                            <span class="status-dot"></span>
+                                            Upcoming
+                                        </span>
+
+                                    {% elif live.class_status == "Live Now" %}
+
+                                        <span class="live-status status-live">
+                                            <span class="status-dot"></span>
+                                            Live Now
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="live-status status-ended">
+                                            <span class="status-dot"></span>
+                                            Ended
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                            <!-- Class Details -->
+                            <div class="live-card-body">
+
+                                <span class="live-card-label">CLASS SESSION</span>
+
+                                <h3 class="live-class-title">
+                                    {{ live.title }}
+                                </h3>
+
+                                <div class="live-schedule-list">
+
+                                    <!-- Date -->
+                                    <div class="live-schedule-item">
+                                        <div class="live-schedule-icon date-icon">
+                                            <i class="mdi mdi-calendar-month-outline"></i>
+                                        </div>
+
+                                        <div class="live-schedule-text">
+                                            <span>Scheduled Date</span>
+                                            <strong>{{ live.scheduled_date }}</strong>
+                                        </div>
+                                    </div>
+
+                                    <!-- Start Time -->
+                                    <div class="live-schedule-item">
+                                        <div class="live-schedule-icon start-time-icon">
+                                            <i class="mdi mdi-clock-start"></i>
+                                        </div>
+
+                                        <div class="live-schedule-text">
+                                            <span>Start Time</span>
+                                            <strong>{{ live.start_time }}</strong>
+                                        </div>
+                                    </div>
+
+                                    <!-- End Time -->
+                                    <div class="live-schedule-item">
+                                        <div class="live-schedule-icon end-time-icon">
+                                            <i class="mdi mdi-clock-end"></i>
+                                        </div>
+
+                                        <div class="live-schedule-text">
+                                            <span>End Time</span>
+                                            <strong>{{ live.end_time }}</strong>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Action -->
+                                <div class="live-card-action">
+
+                                    {% if live.class_status == "Live Now" %}
+
+                                        <a href="{% url 'student_live_class' live.id %}"
+                                           class="live-join-btn">
+
+                                            <i class="mdi mdi-video"></i>
+                                            <span>Join Live Class</span>
+                                            <i class="mdi mdi-arrow-right live-action-arrow"></i>
+
+                                        </a>
+
+                                    {% elif live.class_status == "Upcoming" %}
+
+                                        <button type="button"
+                                                class="live-disabled-btn"
+                                                disabled>
+
+                                            <i class="mdi mdi-clock-outline"></i>
+                                            <span>Class Not Started</span>
+
+                                        </button>
+
+                                    {% else %}
+
+                                        <button type="button"
+                                                class="live-disabled-btn ended-btn"
+                                                disabled>
+
+                                            <i class="mdi mdi-check-circle-outline"></i>
+                                            <span>Class Has Ended</span>
+
+                                        </button>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <!-- Empty State -->
+                <div class="col-12">
+
+                    <div class="live-empty-state">
+
+                        <div class="live-empty-icon">
+                            <i class="mdi mdi-calendar-blank-outline"></i>
+                        </div>
+
+                        <h4>No Live Classes Scheduled</h4>
+
+                        <p>
+                            There are no live classes scheduled for this course
+                            right now. Your upcoming sessions will appear here
+                            when your teacher schedules them.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- Helpful Note -->
+        <div class="live-class-tip">
+            <i class="mdi mdi-information-outline"></i>
+
+            <p>
+                <strong>Before joining:</strong>
+                Make sure your internet connection is stable and join when
+                the class status changes to <strong>Live Now</strong>.
+            </p>
         </div>
 
     </div>

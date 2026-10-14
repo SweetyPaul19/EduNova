@@ -72,13 +72,15 @@ class my_batch(models.Model):
     def _str_(self):
             return self.user_email
 
-class upload_lecture(models.Model):
-    course_id=models.CharField(max_length=50,default=" ")
-    lecture_title=models.CharField(max_length=50,default=" ")
-    lecture_file=models.FileField(upload_to='lecture',default=" ")
-    teacher_email=models.EmailField(max_length=50,default=" ")
-    def _str_(self):
-            return self.lecture_title               
+class StudyMaterial(models.Model):
+    course = models.ForeignKey('course',on_delete=models.CASCADE,related_name='study_materials') # 
+    teacher = models.ForeignKey('teacher',on_delete=models.CASCADE,related_name='uploaded_study_materials')# 
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to='study_materials/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title              
 
 class LiveClass(models.Model):
     course = models.ForeignKey(course, on_delete=models.CASCADE)
